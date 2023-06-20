@@ -1,0 +1,33 @@
+<h2 class="user-list__title">{{ editingUser ? 'Edit User' : 'Add User' }}</h2>
+
+<ul class="user-list">
+    <li *ngFor="let user of users" class="user-list__item">
+        <span class="user-list__item__name">{{ user.name }}</span>
+        <span class="user-list__item__email">{{ user.email }}</span>
+        <div class="user-list__item__buttons">
+            <button (click)="editUser(user)" class="user-list__item__button">Edit</button>
+            <button (click)="deleteUser(user.id)" class="user-list__item__button">Delete</button>
+        </div>
+    </li>
+</ul>
+
+<form [formGroup]="userForm" (ngSubmit)="editingUser ? updateUser() : addUser()" class="user-form">
+    <div class="user-form__field">
+        <label for="name" class="user-form__field__label">Name:</label>
+        <input type="text" id="name" formControlName="name" class="user-form__field__input">
+        <div class="user-form__error-message" *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched">
+            Name is required.
+        </div>
+    </div>
+    <div class="user-form__field">
+        <label for="email" class="user-form__field__label">Email:</label>
+        <input type="email" id="email" formControlName="email" class="user-form__field__input">
+        <div class="user-form__error-message" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+            Email is required.
+        </div>
+    </div>
+    <div class="user-form__field">
+        <button type="submit" class="user-form__button">Save User</button>
+        <button type="button" (click)="cancelEdit()" *ngIf="editingUser" class="user-form__button">Cancel</button>
+    </div>
+</form>
